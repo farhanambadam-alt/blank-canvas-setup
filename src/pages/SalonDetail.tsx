@@ -146,9 +146,9 @@ const SalonDetail = () => {
       </div>
 
       {activeTab === 'services' && (
-        <div className="animate-fade-in-up" style={{ animationDuration: '300ms' }}>
+        <div className="animate-fade-in-up mx-3 mt-3 glass-orange p-1" style={{ animationDuration: '300ms' }}>
           {/* Artists */}
-          <div className="px-4 pt-4">
+          <div className="px-3 pt-3">
             <h3 className="font-heading font-semibold text-sm text-foreground mb-3">Our Artists</h3>
             <div className="flex gap-4 overflow-x-auto scrollbar-hide pb-2 items-end">
               <button
@@ -183,7 +183,7 @@ const SalonDetail = () => {
           </div>
 
           {/* Service Tabs */}
-          <div className="flex gap-2 px-4 pt-3 pb-2">
+          <div className="flex gap-2 px-3 pt-3 pb-2">
             {(['men', 'women', 'packages', 'outside'] as const).map((tab) => (
               <button
                 key={tab}
@@ -198,7 +198,7 @@ const SalonDetail = () => {
           </div>
 
           {/* Service List */}
-          <div className="px-4 space-y-2 pt-1">
+          <div className="px-3 space-y-2 pt-1 pb-3">
             {filteredServices.map((service) => (
               <div key={service.id} className="flex items-center justify-between bg-card rounded-2xl p-3 card-shadow">
                 <div className="flex-1">
@@ -238,9 +238,9 @@ const SalonDetail = () => {
       )}
 
       {activeTab === 'reviews' && (
-        <div className="animate-fade-in-up" style={{ animationDuration: '300ms' }}>
+        <div className="animate-fade-in-up mx-3 mt-3 glass-orange p-1" style={{ animationDuration: '300ms' }}>
           {/* Our Artists */}
-          <div className="px-4 pt-4">
+          <div className="px-3 pt-3">
             <h3 className="font-heading font-semibold text-sm text-foreground mb-3">Our Artists</h3>
             <div className="flex gap-4 overflow-x-auto scrollbar-hide pb-2 items-end">
               <button
@@ -275,7 +275,7 @@ const SalonDetail = () => {
           </div>
 
           {/* Filter Chips */}
-          <div className="flex gap-2 overflow-x-auto scrollbar-hide px-4 pt-3 pb-3">
+          <div className="flex gap-2 overflow-x-auto scrollbar-hide px-3 pt-3 pb-3">
             {[
               { key: 'all', label: 'All' },
               { key: '5', label: '5⭐' },
@@ -295,13 +295,13 @@ const SalonDetail = () => {
           </div>
 
           {selectedArtist && (
-            <p className="text-xs text-muted-foreground font-body px-4 mb-3">
+            <p className="text-xs text-muted-foreground font-body px-3 mb-3">
               Showing reviews for {artists.find(a => a.id === selectedArtist)?.name}
             </p>
           )}
 
           {/* Review List */}
-          <div className="space-y-3 px-4">
+          <div className="space-y-3 px-3 pb-3">
             {filteredReviews.map((review) => (
               <div key={review.id} className="bg-card rounded-2xl p-3 card-shadow">
                 <div className="flex items-start gap-2.5">
