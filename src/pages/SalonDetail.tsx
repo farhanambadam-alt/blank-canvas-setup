@@ -146,63 +146,61 @@ const SalonDetail = () => {
       </div>
 
       {activeTab === 'services' && (
-        <div className="animate-fade-in-up" style={{ animationDuration: '300ms' }}>
-          {/* Artists + Service Tabs wrapped in glass */}
-          <div className="mx-3 mt-3 glass-orange p-1">
-            <div className="px-3 pt-3">
-              <h3 className="font-heading font-semibold text-sm text-foreground mb-3">Our Artists</h3>
-              <div className="flex gap-4 overflow-x-auto scrollbar-hide pb-2 items-end">
-                <button
-                  onClick={() => setSelectedArtist(null)}
-                  className="flex flex-col items-center gap-1 flex-shrink-0"
-                >
-                  <div className={`rounded-full bg-secondary flex items-center justify-center text-xs font-heading font-medium text-foreground border-2 transition-all duration-300 ease-out ${
-                    !selectedArtist ? 'w-16 h-16 border-primary shadow-lg' : 'w-14 h-14 border-transparent'
-                  }`} style={!selectedArtist ? { animation: 'jelly 0.5s ease' } : undefined}>
-                    All
-                  </div>
-                  <span className={`text-[10px] font-body transition-colors duration-200 ${!selectedArtist ? 'text-primary font-medium' : 'text-muted-foreground'}`}>All Artists</span>
-                </button>
-                {artists.map((artist) => {
-                  const isSelected = selectedArtist === artist.id;
-                  return (
-                    <button
-                      key={artist.id}
-                      onClick={() => setSelectedArtist(isSelected ? null : artist.id)}
-                      className="flex flex-col items-center gap-1 flex-shrink-0"
-                    >
-                      <div className={`rounded-full overflow-hidden border-2 transition-all duration-300 ease-out ${
-                        isSelected ? 'w-16 h-16 border-primary shadow-lg' : 'w-14 h-14 border-transparent'
-                      }`} style={isSelected ? { animation: 'jelly 0.5s ease' } : undefined}>
-                        <img src={artist.avatar} alt={artist.name} className="w-full h-full object-cover" />
-                      </div>
-                      <span className={`text-[10px] font-body transition-colors duration-200 whitespace-nowrap ${isSelected ? 'text-primary font-medium' : 'text-muted-foreground'}`}>{artist.name}</span>
-                    </button>
-                  );
-                })}
-              </div>
-            </div>
-
-            {/* Service Tabs */}
-            <div className="flex gap-2 px-3 pt-3 pb-3">
-              {(['men', 'women', 'packages', 'outside'] as const).map((tab) => (
-                <button
-                  key={tab}
-                  onClick={() => setServiceTab(tab)}
-                  className={`px-4 py-1.5 rounded-full text-xs font-heading font-medium capitalize transition-all ${
-                    serviceTab === tab ? 'bg-primary text-primary-foreground' : 'bg-secondary text-muted-foreground'
-                  }`}
-                >
-                  {tab}
-                </button>
-              ))}
+        <div className="animate-fade-in-up mx-3 mt-3 glass-orange p-1" style={{ animationDuration: '300ms' }}>
+          {/* Artists */}
+          <div className="px-3 pt-3">
+            <h3 className="font-heading font-semibold text-sm text-foreground mb-3">Our Artists</h3>
+            <div className="flex gap-4 overflow-x-auto scrollbar-hide pb-2 items-end">
+              <button
+                onClick={() => setSelectedArtist(null)}
+                className="flex flex-col items-center gap-1 flex-shrink-0"
+              >
+                <div className={`rounded-full bg-secondary flex items-center justify-center text-xs font-heading font-medium text-foreground border-2 transition-all duration-300 ease-out ${
+                  !selectedArtist ? 'w-16 h-16 border-primary shadow-lg' : 'w-14 h-14 border-transparent'
+                }`} style={!selectedArtist ? { animation: 'jelly 0.5s ease' } : undefined}>
+                  All
+                </div>
+                <span className={`text-[10px] font-body transition-colors duration-200 ${!selectedArtist ? 'text-primary font-medium' : 'text-muted-foreground'}`}>All Artists</span>
+              </button>
+              {artists.map((artist) => {
+                const isSelected = selectedArtist === artist.id;
+                return (
+                  <button
+                    key={artist.id}
+                    onClick={() => setSelectedArtist(isSelected ? null : artist.id)}
+                    className="flex flex-col items-center gap-1 flex-shrink-0"
+                  >
+                    <div className={`rounded-full overflow-hidden border-2 transition-all duration-300 ease-out ${
+                      isSelected ? 'w-16 h-16 border-primary shadow-lg' : 'w-14 h-14 border-transparent'
+                    }`} style={isSelected ? { animation: 'jelly 0.5s ease' } : undefined}>
+                      <img src={artist.avatar} alt={artist.name} className="w-full h-full object-cover" />
+                    </div>
+                    <span className={`text-[10px] font-body transition-colors duration-200 whitespace-nowrap ${isSelected ? 'text-primary font-medium' : 'text-muted-foreground'}`}>{artist.name}</span>
+                  </button>
+                );
+              })}
             </div>
           </div>
 
-          {/* Service List - outside glass, with own glass-orange cards */}
-          <div className="px-3 space-y-2 pt-3 pb-3">
+          {/* Service Tabs */}
+          <div className="flex gap-2 px-3 pt-3 pb-2">
+            {(['men', 'women', 'packages', 'outside'] as const).map((tab) => (
+              <button
+                key={tab}
+                onClick={() => setServiceTab(tab)}
+                className={`px-4 py-1.5 rounded-full text-xs font-heading font-medium capitalize transition-all ${
+                  serviceTab === tab ? 'bg-primary text-primary-foreground' : 'bg-secondary text-muted-foreground'
+                }`}
+              >
+                {tab}
+              </button>
+            ))}
+          </div>
+
+          {/* Service List */}
+          <div className="px-3 space-y-2 pt-1 pb-3">
             {filteredServices.map((service) => (
-              <div key={service.id} className="flex items-center justify-between glass-orange p-3">
+              <div key={service.id} className="flex items-center justify-between bg-card rounded-2xl p-3 card-shadow">
                 <div className="flex-1">
                   <h4 className="font-heading font-medium text-sm text-foreground">{service.name}</h4>
                   <span className="text-[10px] font-body text-muted-foreground bg-secondary px-2 py-0.5 rounded-full inline-block mt-1">
