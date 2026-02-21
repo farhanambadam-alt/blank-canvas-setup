@@ -146,14 +146,14 @@ const SalonDetail = () => {
       </div>
 
       {activeTab === 'services' && (
-        <div className="animate-fade-in-up mx-3 mt-3 glass-orange p-1" style={{ animationDuration: '300ms' }}>
-          {/* Artists */}
-          <div className="px-3 pt-3">
+        <div className="animate-fade-in-up" style={{ animationDuration: '300ms' }}>
+          {/* Artists - outside glass */}
+          <div className="px-4 pt-4">
             <h3 className="font-heading font-semibold text-sm text-foreground mb-3">Our Artists</h3>
             <div className="flex gap-4 overflow-x-auto scrollbar-hide pb-2 items-end">
               <button
                 onClick={() => setSelectedArtist(null)}
-                className="flex flex-col items-center gap-1 flex-shrink-0"
+                className="flex flex-col items-center gap-1 flex-shrink-0 relative"
               >
                 <div className={`rounded-full bg-secondary flex items-center justify-center text-xs font-heading font-medium text-foreground border-2 transition-all duration-300 ease-out ${
                   !selectedArtist ? 'w-16 h-16 border-primary shadow-lg' : 'w-14 h-14 border-transparent'
@@ -161,6 +161,7 @@ const SalonDetail = () => {
                   All
                 </div>
                 <span className={`text-[10px] font-body transition-colors duration-200 ${!selectedArtist ? 'text-primary font-medium' : 'text-muted-foreground'}`}>All Artists</span>
+                {!selectedArtist && <div className="absolute -bottom-2 left-1/2 -translate-x-1/2 w-20 h-4 glass-orange rounded-t-xl -z-10" />}
               </button>
               {artists.map((artist) => {
                 const isSelected = selectedArtist === artist.id;
@@ -168,7 +169,7 @@ const SalonDetail = () => {
                   <button
                     key={artist.id}
                     onClick={() => setSelectedArtist(isSelected ? null : artist.id)}
-                    className="flex flex-col items-center gap-1 flex-shrink-0"
+                    className="flex flex-col items-center gap-1 flex-shrink-0 relative"
                   >
                     <div className={`rounded-full overflow-hidden border-2 transition-all duration-300 ease-out ${
                       isSelected ? 'w-16 h-16 border-primary shadow-lg' : 'w-14 h-14 border-transparent'
@@ -176,76 +177,78 @@ const SalonDetail = () => {
                       <img src={artist.avatar} alt={artist.name} className="w-full h-full object-cover" />
                     </div>
                     <span className={`text-[10px] font-body transition-colors duration-200 whitespace-nowrap ${isSelected ? 'text-primary font-medium' : 'text-muted-foreground'}`}>{artist.name}</span>
+                    {isSelected && <div className="absolute -bottom-2 left-1/2 -translate-x-1/2 w-20 h-4 glass-orange rounded-t-xl -z-10" />}
                   </button>
                 );
               })}
             </div>
           </div>
 
-          {/* Service Tabs */}
-          <div className="flex gap-2 px-3 pt-3 pb-2">
-            {(['men', 'women', 'packages', 'outside'] as const).map((tab) => (
-              <button
-                key={tab}
-                onClick={() => setServiceTab(tab)}
-                className={`px-4 py-1.5 rounded-full text-xs font-heading font-medium capitalize transition-all ${
-                  serviceTab === tab ? 'bg-primary text-primary-foreground' : 'bg-secondary text-muted-foreground'
-                }`}
-              >
-                {tab}
-              </button>
-            ))}
-          </div>
+          {/* Tabs + Service List in glass */}
+          <div className="mx-3 glass-orange p-1">
+            <div className="flex gap-2 px-3 pt-3 pb-2">
+              {(['men', 'women', 'packages', 'outside'] as const).map((tab) => (
+                <button
+                  key={tab}
+                  onClick={() => setServiceTab(tab)}
+                  className={`px-4 py-1.5 rounded-full text-xs font-heading font-medium capitalize transition-all ${
+                    serviceTab === tab ? 'bg-primary text-primary-foreground' : 'bg-secondary text-muted-foreground'
+                  }`}
+                >
+                  {tab}
+                </button>
+              ))}
+            </div>
 
-          {/* Service List */}
-          <div className="px-3 space-y-2 pt-1 pb-3">
-            {filteredServices.map((service) => (
-              <div key={service.id} className="flex items-center justify-between bg-card rounded-2xl p-3 card-shadow">
-                <div className="flex-1">
-                  <h4 className="font-heading font-medium text-sm text-foreground">{service.name}</h4>
-                  <span className="text-[10px] font-body text-muted-foreground bg-secondary px-2 py-0.5 rounded-full inline-block mt-1">
-                    {service.duration}
-                  </span>
-                  <div className="flex items-center gap-2 mt-1.5">
-                    <span className="font-heading font-semibold text-sm text-foreground">₹{service.price}</span>
-                    {service.originalPrice && (
-                      <span className="text-xs text-muted-foreground line-through">₹{service.originalPrice}</span>
-                    )}
+            <div className="px-3 space-y-2 pt-1 pb-3">
+              {filteredServices.map((service) => (
+                <div key={service.id} className="flex items-center justify-between bg-card rounded-2xl p-3 card-shadow">
+                  <div className="flex-1">
+                    <h4 className="font-heading font-medium text-sm text-foreground">{service.name}</h4>
+                    <span className="text-[10px] font-body text-muted-foreground bg-secondary px-2 py-0.5 rounded-full inline-block mt-1">
+                      {service.duration}
+                    </span>
+                    <div className="flex items-center gap-2 mt-1.5">
+                      <span className="font-heading font-semibold text-sm text-foreground">₹{service.price}</span>
+                      {service.originalPrice && (
+                        <span className="text-xs text-muted-foreground line-through">₹{service.originalPrice}</span>
+                      )}
+                    </div>
                   </div>
+                  {cart[service.id] ? (
+                    <div className="flex items-center gap-2 bg-primary/10 rounded-xl px-1">
+                      <button onClick={() => removeFromCart(service.id)} className="p-1.5 text-primary">
+                        <Minus size={14} />
+                      </button>
+                      <span className="text-sm font-heading font-semibold text-primary w-4 text-center">{cart[service.id]}</span>
+                      <button onClick={() => addToCart(service.id)} className="p-1.5 text-primary">
+                        <Plus size={14} />
+                      </button>
+                    </div>
+                  ) : (
+                    <button
+                      onClick={() => addToCart(service.id)}
+                      className="bg-primary text-primary-foreground text-xs font-heading font-medium px-4 py-2 rounded-xl active:scale-95 transition-transform animate-bounce-in"
+                    >
+                      Add
+                    </button>
+                  )}
                 </div>
-                {cart[service.id] ? (
-                  <div className="flex items-center gap-2 bg-primary/10 rounded-xl px-1">
-                    <button onClick={() => removeFromCart(service.id)} className="p-1.5 text-primary">
-                      <Minus size={14} />
-                    </button>
-                    <span className="text-sm font-heading font-semibold text-primary w-4 text-center">{cart[service.id]}</span>
-                    <button onClick={() => addToCart(service.id)} className="p-1.5 text-primary">
-                      <Plus size={14} />
-                    </button>
-                  </div>
-                ) : (
-                  <button
-                    onClick={() => addToCart(service.id)}
-                    className="bg-primary text-primary-foreground text-xs font-heading font-medium px-4 py-2 rounded-xl active:scale-95 transition-transform animate-bounce-in"
-                  >
-                    Add
-                  </button>
-                )}
-              </div>
-            ))}
+              ))}
+            </div>
           </div>
         </div>
       )}
 
       {activeTab === 'reviews' && (
-        <div className="animate-fade-in-up mx-3 mt-3 glass-orange p-1" style={{ animationDuration: '300ms' }}>
-          {/* Our Artists */}
-          <div className="px-3 pt-3">
+        <div className="animate-fade-in-up" style={{ animationDuration: '300ms' }}>
+          {/* Artists - outside glass */}
+          <div className="px-4 pt-4">
             <h3 className="font-heading font-semibold text-sm text-foreground mb-3">Our Artists</h3>
             <div className="flex gap-4 overflow-x-auto scrollbar-hide pb-2 items-end">
               <button
                 onClick={() => setSelectedArtist(null)}
-                className="flex flex-col items-center gap-1 flex-shrink-0"
+                className="flex flex-col items-center gap-1 flex-shrink-0 relative"
               >
                 <div className={`rounded-full bg-secondary flex items-center justify-center text-xs font-heading font-medium text-foreground border-2 transition-all duration-300 ease-out ${
                   !selectedArtist ? 'w-16 h-16 border-primary shadow-lg' : 'w-14 h-14 border-transparent'
@@ -253,6 +256,7 @@ const SalonDetail = () => {
                   All
                 </div>
                 <span className={`text-[10px] font-body transition-colors duration-200 ${!selectedArtist ? 'text-primary font-medium' : 'text-muted-foreground'}`}>All Artists</span>
+                {!selectedArtist && <div className="absolute -bottom-2 left-1/2 -translate-x-1/2 w-20 h-4 glass-orange rounded-t-xl -z-10" />}
               </button>
               {artists.map((artist) => {
                 const isSelected = selectedArtist === artist.id;
@@ -260,7 +264,7 @@ const SalonDetail = () => {
                   <button
                     key={artist.id}
                     onClick={() => setSelectedArtist(isSelected ? null : artist.id)}
-                    className="flex flex-col items-center gap-1 flex-shrink-0"
+                    className="flex flex-col items-center gap-1 flex-shrink-0 relative"
                   >
                     <div className={`rounded-full overflow-hidden border-2 transition-all duration-300 ease-out ${
                       isSelected ? 'w-16 h-16 border-primary shadow-lg' : 'w-14 h-14 border-transparent'
@@ -268,70 +272,72 @@ const SalonDetail = () => {
                       <img src={artist.avatar} alt={artist.name} className="w-full h-full object-cover" />
                     </div>
                     <span className={`text-[10px] font-body transition-colors duration-200 whitespace-nowrap ${isSelected ? 'text-primary font-medium' : 'text-muted-foreground'}`}>{artist.name}</span>
+                    {isSelected && <div className="absolute -bottom-2 left-1/2 -translate-x-1/2 w-20 h-4 glass-orange rounded-t-xl -z-10" />}
                   </button>
                 );
               })}
             </div>
           </div>
 
-          {/* Filter Chips */}
-          <div className="flex gap-2 overflow-x-auto scrollbar-hide px-3 pt-3 pb-3">
-            {[
-              { key: 'all', label: 'All' },
-              { key: '5', label: '5⭐' },
-              { key: '4', label: '4⭐+' },
-              { key: 'photos', label: 'With Photos' },
-            ].map((f) => (
-              <button
-                key={f.key}
-                onClick={() => setReviewFilter(f.key)}
-                className={`px-3 py-1.5 rounded-full text-xs font-heading font-medium whitespace-nowrap transition-all ${
-                  reviewFilter === f.key ? 'bg-primary text-primary-foreground' : 'bg-secondary text-muted-foreground'
-                }`}
-              >
-                {f.label}
-              </button>
-            ))}
-          </div>
+          {/* Filters + Reviews in glass */}
+          <div className="mx-3 glass-orange p-1">
+            <div className="flex gap-2 overflow-x-auto scrollbar-hide px-3 pt-3 pb-3">
+              {[
+                { key: 'all', label: 'All' },
+                { key: '5', label: '5⭐' },
+                { key: '4', label: '4⭐+' },
+                { key: 'photos', label: 'With Photos' },
+              ].map((f) => (
+                <button
+                  key={f.key}
+                  onClick={() => setReviewFilter(f.key)}
+                  className={`px-3 py-1.5 rounded-full text-xs font-heading font-medium whitespace-nowrap transition-all ${
+                    reviewFilter === f.key ? 'bg-primary text-primary-foreground' : 'bg-secondary text-muted-foreground'
+                  }`}
+                >
+                  {f.label}
+                </button>
+              ))}
+            </div>
 
-          {selectedArtist && (
-            <p className="text-xs text-muted-foreground font-body px-3 mb-3">
-              Showing reviews for {artists.find(a => a.id === selectedArtist)?.name}
-            </p>
-          )}
+            {selectedArtist && (
+              <p className="text-xs text-muted-foreground font-body px-3 mb-3">
+                Showing reviews for {artists.find(a => a.id === selectedArtist)?.name}
+              </p>
+            )}
 
-          {/* Review List */}
-          <div className="space-y-3 px-3 pb-3">
-            {filteredReviews.map((review) => (
-              <div key={review.id} className="bg-card rounded-2xl p-3 card-shadow">
-                <div className="flex items-start gap-2.5">
-                  <img src={review.userAvatar} alt={review.userName} className="w-9 h-9 rounded-full object-cover flex-shrink-0" />
-                  <div className="flex-1">
-                    <div className="flex items-center justify-between">
-                      <span className="font-heading font-medium text-sm text-foreground">{review.userName}</span>
-                      <div className="flex items-center gap-0.5">
-                        {Array.from({ length: review.rating }).map((_, i) => (
-                          <Star key={i} size={10} className="text-accent fill-accent" />
-                        ))}
+            <div className="space-y-3 px-3 pb-3">
+              {filteredReviews.map((review) => (
+                <div key={review.id} className="bg-card rounded-2xl p-3 card-shadow">
+                  <div className="flex items-start gap-2.5">
+                    <img src={review.userAvatar} alt={review.userName} className="w-9 h-9 rounded-full object-cover flex-shrink-0" />
+                    <div className="flex-1">
+                      <div className="flex items-center justify-between">
+                        <span className="font-heading font-medium text-sm text-foreground">{review.userName}</span>
+                        <div className="flex items-center gap-0.5">
+                          {Array.from({ length: review.rating }).map((_, i) => (
+                            <Star key={i} size={10} className="text-accent fill-accent" />
+                          ))}
+                        </div>
                       </div>
+                      <p className="text-xs text-muted-foreground font-body mt-1">{review.text}</p>
+                      <div className="flex items-center gap-3 mt-2">
+                        <span className="text-[10px] bg-secondary text-muted-foreground px-2 py-0.5 rounded-full">{review.service}</span>
+                        <span className="text-[10px] text-muted-foreground">{review.date}</span>
+                      </div>
+                      <button className="flex items-center gap-1 mt-2 text-[10px] text-muted-foreground">
+                        <ThumbsUp size={10} /> Helpful ({review.helpful})
+                      </button>
                     </div>
-                    <p className="text-xs text-muted-foreground font-body mt-1">{review.text}</p>
-                    <div className="flex items-center gap-3 mt-2">
-                      <span className="text-[10px] bg-secondary text-muted-foreground px-2 py-0.5 rounded-full">{review.service}</span>
-                      <span className="text-[10px] text-muted-foreground">{review.date}</span>
-                    </div>
-                    <button className="flex items-center gap-1 mt-2 text-[10px] text-muted-foreground">
-                      <ThumbsUp size={10} /> Helpful ({review.helpful})
-                    </button>
                   </div>
                 </div>
-              </div>
-            ))}
-            {filteredReviews.length === 0 && (
-              <div className="text-center py-8">
-                <p className="text-sm text-muted-foreground font-body">No reviews found</p>
-              </div>
-            )}
+              ))}
+              {filteredReviews.length === 0 && (
+                <div className="text-center py-8">
+                  <p className="text-sm text-muted-foreground font-body">No reviews found</p>
+                </div>
+              )}
+            </div>
           </div>
         </div>
       )}
