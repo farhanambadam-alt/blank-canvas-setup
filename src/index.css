@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400&family=Inter:wght@300;400;500;600&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400&family=Inter:wght@300;400;500;600&family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap');
 
 @tailwind base;
 @tailwind components;
@@ -50,6 +50,12 @@
 
     --font-heading: 'Poppins', sans-serif;
     --font-body: 'Inter', sans-serif;
+    --font-serif: 'Playfair Display', serif;
+    --font-sans: 'Plus Jakarta Sans', sans-serif;
+
+    --champagne: 30 42% 94%;
+    --bronze: 18 18% 51%;
+    --truffle: 13 27% 14%;
 
     --shadow-card: 0 2px 12px -2px hsl(280 20% 20% / 0.06);
     --shadow-card-hover: 0 8px 24px -4px hsl(280 20% 20% / 0.1);

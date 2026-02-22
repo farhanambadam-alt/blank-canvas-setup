@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { ArrowLeft, Share2, Star, MapPin, Clock, ChevronRight, ThumbsUp, Plus, Minus, Phone, MessageCircle, Navigation, Heart, ShieldCheck, QrCode } from 'lucide-react';
+import ReviewsSection from '@/components/ReviewsSection';
 import { useNavigate, useParams } from 'react-router-dom';
 import { featuredSalons, nearbySalons, services, artists, reviews } from '@/data/mockData';
 
@@ -241,105 +242,12 @@ const SalonDetail = () => {
       )}
 
       {activeTab === 'reviews' && (
-        <div className="animate-fade-in-up" style={{ animationDuration: '300ms' }}>
-          {/* Artists - outside glass */}
-          <div className="px-4 pt-4">
-            <h3 className="font-heading font-semibold text-sm text-foreground mb-3">Our Artists</h3>
-            <div className="flex gap-4 overflow-x-auto scrollbar-hide pb-2 items-end">
-              <button
-                onClick={() => setSelectedArtist(null)}
-                className="flex flex-col items-center gap-1 flex-shrink-0 relative"
-              >
-                <div className={`rounded-full bg-secondary flex items-center justify-center text-xs font-heading font-medium text-foreground border-2 transition-all duration-300 ease-out ${
-                  !selectedArtist ? 'w-16 h-16 border-primary shadow-lg' : 'w-14 h-14 border-transparent'
-                }`} style={!selectedArtist ? { animation: 'jelly 0.5s ease' } : undefined}>
-                  All
-                </div>
-                <span className={`text-[10px] font-body transition-colors duration-200 ${!selectedArtist ? 'text-primary font-medium' : 'text-muted-foreground'}`}>All Artists</span>
-                {!selectedArtist && <div className="absolute -bottom-2 left-1/2 -translate-x-1/2 w-20 h-4 glass-orange rounded-t-xl -z-10" />}
-              </button>
-              {artists.map((artist) => {
-                const isSelected = selectedArtist === artist.id;
-                return (
-                  <button
-                    key={artist.id}
-                    onClick={() => setSelectedArtist(isSelected ? null : artist.id)}
-                    className="flex flex-col items-center gap-1 flex-shrink-0 relative"
-                  >
-                    <div className={`rounded-full overflow-hidden border-2 transition-all duration-300 ease-out ${
-                      isSelected ? 'w-16 h-16 border-primary shadow-lg' : 'w-14 h-14 border-transparent'
-                    }`} style={isSelected ? { animation: 'jelly 0.5s ease' } : undefined}>
-                      <img src={artist.avatar} alt={artist.name} className="w-full h-full object-cover" />
-                    </div>
-                    <span className={`text-[10px] font-body transition-colors duration-200 whitespace-nowrap ${isSelected ? 'text-primary font-medium' : 'text-muted-foreground'}`}>{artist.name}</span>
-                    {isSelected && <div className="absolute -bottom-2 left-1/2 -translate-x-1/2 w-20 h-4 glass-orange rounded-t-xl -z-10" />}
-                  </button>
-                );
-              })}
-            </div>
-          </div>
-
-          {/* Filters + Reviews in glass */}
-          <div className="mx-3 glass-orange p-1">
-            <div className="flex gap-2 overflow-x-auto scrollbar-hide px-3 pt-3 pb-3">
-              {[
-                { key: 'all', label: 'All' },
-                { key: '5', label: '5⭐' },
-                { key: '4', label: '4⭐+' },
-                { key: 'photos', label: 'With Photos' },
-              ].map((f) => (
-                <button
-                  key={f.key}
-                  onClick={() => setReviewFilter(f.key)}
-                  className={`px-3 py-1.5 rounded-full text-xs font-heading font-medium whitespace-nowrap transition-all ${
-                    reviewFilter === f.key ? 'bg-primary text-primary-foreground' : 'bg-secondary text-muted-foreground'
-                  }`}
-                >
-                  {f.label}
-                </button>
-              ))}
-            </div>
-
-            {selectedArtist && (
-              <p className="text-xs text-muted-foreground font-body px-3 mb-3">
-                Showing reviews for {artists.find(a => a.id === selectedArtist)?.name}
-              </p>
-            )}
-
-            <div className="space-y-3 px-3 pb-3">
-              {filteredReviews.map((review) => (
-                <div key={review.id} className="bg-card rounded-2xl p-3 card-shadow">
-                  <div className="flex items-start gap-2.5">
-                    <img src={review.userAvatar} alt={review.userName} className="w-9 h-9 rounded-full object-cover flex-shrink-0" />
-                    <div className="flex-1">
-                      <div className="flex items-center justify-between">
-                        <span className="font-heading font-medium text-sm text-foreground">{review.userName}</span>
-                        <div className="flex items-center gap-0.5">
-                          {Array.from({ length: review.rating }).map((_, i) => (
-                            <Star key={i} size={10} className="text-accent fill-accent" />
-                          ))}
-                        </div>
-                      </div>
-                      <p className="text-xs text-muted-foreground font-body mt-1">{review.text}</p>
-                      <div className="flex items-center gap-3 mt-2">
-                        <span className="text-[10px] bg-secondary text-muted-foreground px-2 py-0.5 rounded-full">{review.service}</span>
-                        <span className="text-[10px] text-muted-foreground">{review.date}</span>
-                      </div>
-                      <button className="flex items-center gap-1 mt-2 text-[10px] text-muted-foreground">
-                        <ThumbsUp size={10} /> Helpful ({review.helpful})
-                      </button>
-                    </div>
-                  </div>
-                </div>
-              ))}
-              {filteredReviews.length === 0 && (
-                <div className="text-center py-8">
-                  <p className="text-sm text-muted-foreground font-body">No reviews found</p>
-                </div>
-              )}
-            </div>
-          </div>
-        </div>
+        <ReviewsSection
+          artists={artists}
+          reviews={reviews}
+          selectedArtist={selectedArtist}
+          onSelectArtist={setSelectedArtist}
+        />
       )}
 
       {activeTab === 'about' && (
